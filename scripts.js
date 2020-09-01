@@ -9,8 +9,12 @@ $("form#coords").submit(function (event) {
 function validation() {
     let y = $("#y").val();
     let r = $("#r").val();
-    if (!(isNaN(y) || y<-5 && y>5)&&!(isNaN(r)||r<2||r>5)&&$("input:checkbox").filter(":checked").length>0){
+    if (!(isNaN(y) || y<-5 || y>5)&&!(isNaN(r)||r<2||r>5)&&$("input:checkbox").filter(":checked").length>0){
         toServer();
+    } else {
+        alert('input is invalid: ' +
+            'y -> [-5..5] and ' +
+            'r -> [2..5]');
     }
 }
 function toServer(){
@@ -28,11 +32,11 @@ function toServer(){
 function writeResult(answer){
     $("#data_in_the_table").append(
         "<tr> <td>" + answer.x + "</td>" +
-        "<td>" + answer.y + "</td>" +
-        "<td>" + answer.r + "</td>" +
+        "<td class='overwhelmed'>" + answer.y + "</td>" +
+        "<td class='overwhelmed'>" + answer.r + "</td>" +
         "<td>" + answer.result + "</td>" +
         "<td>" + answer.time + "</td>" +
-        "<td>" + answer.time_of_work + "</td> </tr>");
+        "<td class='overwhelmed'>" + answer.time_of_work*1000+ " ms </td> </tr>");
 }
 
 
@@ -130,8 +134,8 @@ function scaleCanvas(coords) {
     graphic.stroke();
 
     graphic.fillStyle="Black";
-    graphic.fillText(coords.r ,getRealX(coords.r*0.9), getRealY(-coords.r*0.3));
-    graphic.fillText(-coords.r ,getRealX(-coords.r*1.1), getRealY(-coords.r*0.3));
+    graphic.fillText(Math.round(Number(coords.r)),getRealX(coords.r*0.9), getRealY(-coords.r*0.3));
+    graphic.fillText(-Math.round(Number(coords.r)) ,getRealX(-coords.r*1.1), getRealY(-coords.r*0.3));
 
 
 }
